@@ -1,8 +1,7 @@
 name: Trivy CVE Dependency Scanner
 
 on:
-  schedule:
-    - cron: '0 0 * * *'
+  push:
 
 jobs:
   scan:
@@ -28,9 +27,9 @@ jobs:
       - name: Run Trivy vulnerability scanner in repo mode
         uses: aquasecurity/trivy-action@master
         with:
-          scan-type: 'fs'
-          input: '.'
-          ignore-unfixed: true
+          scan-type: 'rootfs .'
+          scan-ref: '.'
+        ignore-unfixed: true
           format: 'template'
           template: '@/contrib/sarif.tpl'
           output: 'trivy-results.sarif'
